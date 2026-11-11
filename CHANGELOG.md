@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.1 — 2026-11-12
+
+### Fixed
+
+- Disabled Zernike and modification patterns stay disabled after configuration imports and recalculation.
+
 ## 3.7.0 — 2026-11-11
 
 ### Changed

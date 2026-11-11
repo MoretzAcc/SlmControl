@@ -98,7 +98,7 @@ class CalculationSchedulingTest(unittest.TestCase):
         self.release.set()
         self.drain(lambda: not self.window._pending_pattern_calculations)
         self.assertEqual(calls, [0, 6])
-        self.manager.ensure_displayer.return_value.setModificationPattern.assert_called_once_with(6)
+        self.manager.ensure_displayer.return_value.setModificationPattern.assert_called_once_with(6, activate=False)
 
     def test_reset_discards_queued_work_and_prevents_session_recreation(self) -> None:
         self.window._start_pattern_calculation('screen', 'modification', (1,), self.release.wait, 3)

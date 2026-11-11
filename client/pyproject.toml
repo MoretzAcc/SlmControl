@@ -1,6 +1,6 @@
 [project]
 name = "slmcontrol-client"
-version = "3.7.0"
+version = "3.7.1"
 description = "Python client for controlling SLM Control instances through HEROS."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -1535,12 +1535,12 @@ class MainWindow(QMainWindow):
             return
         try:
             if component == "modification":
-                displayer.setModificationPattern(result)
+                displayer.setModificationPattern(result, activate=False)
                 displayer.rememberModificationParameters(parameters)
                 self._last_modification_parameters[screen_uid] = parameters
             else:
                 cart_grid, pattern, aberrations = result
-                displayer.setComputedZernikePattern(pattern, aberrations, cart_grid)
+                displayer.setComputedZernikePattern(pattern, aberrations, cart_grid, activate=False)
                 self._last_zernike_parameters[screen_uid] = parameters
         except PatternSizeMismatchError:
             return

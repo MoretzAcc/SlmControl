@@ -200,7 +200,10 @@ class HologramManager:
         if update:
             self.publishCurrentPattern()
 
-    def setModificationPattern(self, phaseArr: NDArray[np.floating] | None, update: bool = True) -> None:
+    def setModificationPattern(
+        self, phaseArr: NDArray[np.floating] | None, update: bool = True, *, activate: bool = True,
+    ) -> None:
+        """Set the pattern, optionally preserving its current inclusion state."""
         if phaseArr is None:
             hologram = self._getBlankPattern()
         else:
@@ -211,7 +214,8 @@ class HologramManager:
                 self._flipModificationPatternHorizontally,
                 self._flipModificationPatternVertically,
             )
-            self._includeModificationPattern = True
+            if activate:
+                self._includeModificationPattern = True
         if update:
             self.publishCurrentPattern()
 
@@ -317,8 +321,10 @@ class HologramManager:
         aberrations: Mapping[str, float],
         cart_grid: RZern,
         update: bool = True,
+        *,
+        activate: bool = True,
     ) -> None:
-        """Apply a Zernike pattern calculated outside the GUI thread."""
+        """Apply a computed pattern, optionally preserving its current inclusion state."""
         if pattern.shape != self.shape:
             raise PatternSizeMismatchError(
                 f"Zernike pattern shape {pattern.shape} does not match SLM size {self.shape}"
@@ -327,7 +333,8 @@ class HologramManager:
             self._zernike_cart_grid = cart_grid
             self._zernike_aberrations = dict(aberrations)
             self._zernikePattern = wrap_phase(np.asarray(pattern, dtype=np.float32))
-            self._includeZernikePattern = True
+            if activate:
+                self._includeZernikePattern = True
         if update:
             self.publishCurrentPattern()
 

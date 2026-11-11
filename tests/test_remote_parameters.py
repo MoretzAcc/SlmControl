@@ -3,10 +3,11 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import tempfile
-from threading import Thread
+from threading import Event, Thread
+import time
 from types import SimpleNamespace
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import numpy as np
 
@@ -19,6 +20,7 @@ from slmcontrol.hologram_manager import HologramManager
 from slmcontrol.monitor_stuff.models import SessionState
 from slmcontrol.userinterface.display_bridge import DisplayBridge
 from slmcontrol.userinterface.main_window import MainWindow
+from slmcontrol.util.config_file import encode_pattern
 from slmcontrol.util.ui_settings import UiSettings
 
 
@@ -46,6 +48,72 @@ class RemoteParametersTest(unittest.TestCase):
         self.window.close()
         self.window._pattern_executor.shutdown(wait=True)
         self.app.processEvents()
+
+    def _wait_for_calculations(self) -> None:
+        deadline = time.monotonic() + 3
+        while self.window._pending_pattern_calculations and time.monotonic() < deadline:
+            self.app.processEvents()
+            time.sleep(0.001)
+        self.assertFalse(self.window._pending_pattern_calculations)
+
+    def test_import_preserves_inclusion_after_background_calculations(self) -> None:
+        self.window._monitor_manager.ensure_displayer.return_value = self.displayer
+        self.window._sync_pattern_flip_checks = Mock()
+        blank = encode_pattern(np.zeros(self.displayer.shape, dtype=np.float32))
+        configuration = {"patterns": {"correction": blank, "hologram": blank}}
+        for import_patterns in (False, True):
+            for zernike, modification in ((False, False), (False, True), (True, False), (True, True)):
+                with self.subTest(import_patterns=import_patterns, zernike=zernike, modification=modification):
+                    self.displayer.enableZernikePattern(not zernike, update=False)
+                    self.displayer.enableModificationPattern(not modification, update=False)
+                    inclusion = {"base": False, "hologram": False, "zernike": zernike, "modification": modification}
+                    controls = {
+                        "modification": {**self.window._default_modification_inputs, "X": "20"},
+                        "zernike": {**self.window._default_zernike_inputs, "defocus": "0.2"},
+                        "pattern_inclusion": inclusion,
+                        "flips": {name: {"horizontal": False, "vertical": False}
+                                  for name in ("base", "hologram", "modification")},
+                    }
+                    self.window._apply_configuration(
+                        "screen", self.displayer, configuration, controls,
+                        import_patterns=import_patterns, source_path="configuration.json",
+                    )
+                    self.assertEqual(self.displayer.getPatternInclusion(), inclusion)
+                    self._wait_for_calculations()
+                    self.assertEqual(self.displayer.getPatternInclusion(), inclusion)
+                    snapshots = self.displayer.getPatternSnapshots()
+                    self.assertTrue(np.any(snapshots[2]))
+                    self.assertTrue(np.any(snapshots[3]))
+                    if not zernike and not modification:
+                        np.testing.assert_array_equal(snapshots[4], 0)
+
+    def test_disabling_patterns_during_calculation_keeps_them_disabled(self) -> None:
+        self.window._monitor_manager.ensure_displayer.return_value = self.displayer
+        release = Event()
+        calculate = self.window._calculate_modification_pattern
+
+        def delayed_calculation(*args: object) -> object:
+            release.wait(3)
+            return calculate(*args)
+
+        try:
+            with patch.object(self.window, "_calculate_modification_pattern", side_effect=delayed_calculation):
+                self.window._shift_inputs["X"].setText("20")
+                self.window._zernike_parameter_fields["defocus"].setText("0.2")
+                self.window._update_modification_pattern()
+                self.window._update_zernike_pattern()
+                self.displayer.enableZernikePattern(False)
+                self.displayer.enableModificationPattern(False)
+                release.set()
+                self._wait_for_calculations()
+            self.assertFalse(self.displayer.getPatternInclusion()["zernike"])
+            self.assertFalse(self.displayer.getPatternInclusion()["modification"])
+            snapshots = self.displayer.getPatternSnapshots()
+            self.assertTrue(np.any(snapshots[2]))
+            self.assertTrue(np.any(snapshots[3]))
+            np.testing.assert_array_equal(snapshots[4], 0)
+        finally:
+            release.set()
 
     def test_remote_zernike_updates_ui_from_worker_thread(self) -> None:
         worker = Thread(target=self.connector.setZernikeAstigmatism0, args=(0.2,))

@@ -3,6 +3,13 @@
 
 User-facing release notes are maintained in [CHANGELOG.md](../CHANGELOG.md).
 
+## 3.7.1 — 2026-11-12
+
+### Fixed
+
+- GUI background calculation results preserve the current Zernike and modification inclusion flags when applied, including imported flags and patterns disabled while work is in flight. Explicit pattern setters retain their activation defaults.
+- Added regression coverage for enabled/disabled configuration combinations, settings-only imports, and disabling patterns before calculation completion.
+
 ## 3.7.0 — 2026-11-11
 
 ### Changed

@@ -597,70 +597,6 @@ wheels = [
 ]
 
 [[package]]
-name = "slmcontrol"
-version = "3.7.0"
-source = { editable = "." }
-dependencies = [
-    { name = "colorlog" },
-    { name = "heros" },
-    { name = "ipykernel" },
-    { name = "matplotlib" },
-    { name = "slmcontrol-client" },
-    { name = "mypy" },
-    { name = "numpy" },
-    { name = "pillow" },
-    { name = "pyedid" },
-    { name = "pyside6" },
-    { name = "pywin32", marker = "sys_platform == 'win32'" },
-    { name = "zernike" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "colorlog", specifier = ">=6.11.0" },
-    { name = "heros", specifier = ">=0.13.3" },
-    { name = "ipykernel", specifier = ">=7.3.0" },
-    { name = "matplotlib", specifier = ">=3.11.1" },
-    { name = "slmcontrol-client", editable = "client" },
-    { name = "mypy", specifier = ">=2.3.0" },
-    { name = "numpy", specifier = ">=2.5.1" },
-    { name = "pillow", specifier = ">=12.3.0" },
-    { name = "pyedid", specifier = ">=1.0.3" },
-    { name = "pyside6", specifier = ">=6.11.1" },
-    { name = "pywin32", marker = "sys_platform == 'win32'", specifier = ">=312" },
-    { name = "zernike", specifier = ">=0.0.33" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "ruff", specifier = ">=0.15.22" }]
-
-[[package]]
-name = "slmcontrol-client"
-version = "3.7.0"
-source = { editable = "client" }
-dependencies = [
-    { name = "heros" },
-    { name = "matplotlib" },
-    { name = "numpy" },
-    { name = "pillow" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "heros", specifier = ">=0.13.3" },
-    { name = "ipykernel", marker = "extra == 'notebook'", specifier = ">=7.4.0" },
-    { name = "matplotlib", specifier = ">=3.11.1" },
-    { name = "numpy", specifier = ">=2.0" },
-    { name = "pillow", specifier = ">=12.3.0" },
-]
-provides-extras = ["notebook"]
-
-[[package]]
 name = "mypy"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1091,6 +1027,70 @@ sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
 ]
+
+[[package]]
+name = "slmcontrol"
+version = "3.7.1"
+source = { editable = "." }
+dependencies = [
+    { name = "colorlog" },
+    { name = "heros" },
+    { name = "ipykernel" },
+    { name = "matplotlib" },
+    { name = "mypy" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "pyedid" },
+    { name = "pyside6" },
+    { name = "pywin32", marker = "sys_platform == 'win32'" },
+    { name = "slmcontrol-client" },
+    { name = "zernike" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "colorlog", specifier = ">=6.11.0" },
+    { name = "heros", specifier = ">=0.13.3" },
+    { name = "ipykernel", specifier = ">=7.3.0" },
+    { name = "matplotlib", specifier = ">=3.11.1" },
+    { name = "mypy", specifier = ">=2.3.0" },
+    { name = "numpy", specifier = ">=2.5.1" },
+    { name = "pillow", specifier = ">=12.3.0" },
+    { name = "pyedid", specifier = ">=1.0.3" },
+    { name = "pyside6", specifier = ">=6.11.1" },
+    { name = "pywin32", marker = "sys_platform == 'win32'", specifier = ">=312" },
+    { name = "slmcontrol-client", editable = "client" },
+    { name = "zernike", specifier = ">=0.0.33" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ruff", specifier = ">=0.15.22" }]
+
+[[package]]
+name = "slmcontrol-client"
+version = "3.7.1"
+source = { editable = "client" }
+dependencies = [
+    { name = "heros" },
+    { name = "matplotlib" },
+    { name = "numpy" },
+    { name = "pillow" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "heros", specifier = ">=0.13.3" },
+    { name = "ipykernel", marker = "extra == 'notebook'", specifier = ">=7.4.0" },
+    { name = "matplotlib", specifier = ">=3.11.1" },
+    { name = "numpy", specifier = ">=2.0" },
+    { name = "pillow", specifier = ">=12.3.0" },
+]
+provides-extras = ["notebook"]
 
 [[package]]
 name = "stack-data"
