@@ -27,7 +27,7 @@ uv run python -m unittest discover -s tests
 - Improve the current overlap between the Enable SLM output button and the output preview. Scaling down the preview is undesirable here, so an overlap can be a reasonable solution; the current implementation of that overlap needs improvement. Leave the UI unchanged until this design is revisited.
 - Stabilize the HEROS connection toggle before exposing it in the user interface again.
 - Add more end-to-end usage examples; existing client examples are in [client/src/examples](../client/src/examples).
-
+- Make all functions callable through heros return a packet with useful information.
 
 ## Known limitations and validation needs
 
