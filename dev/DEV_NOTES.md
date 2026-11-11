@@ -8,15 +8,6 @@ uv run ruff check .
 uv run python -m unittest discover -s tests
 ```
 
-## Release preparation
-
-- Version 3.7.0 introduces the versioning policy below. Server and client distribution versions are synchronized.
-- Keep the [changelog](../CHANGELOG.md) very short and limited to user-relevant changes. Put implementation details and explanations in the [detailed changelog](CHANGELOG_FULL.md). Collect subsequent changes in a new Unreleased section.
-- The current distribution version is recorded in `VERSION`. Historical changelog entries contain version labels that do not consistently match it; do not derive the next version from those labels alone.
-- At release time, update `VERSION`, run `uv run python dev/sync_version.py`, and verify the resulting package metadata.
-- Refresh both lockfiles with `uv lock` and `uv lock --project client` after synchronizing the package versions.
-- Release validation commands are listed above. Offscreen checks cannot validate focus, compositor behavior, output fidelity, or native monitor discovery; record native desktop and physical SLM checks separately when performed.
-
 ## Versioning policy
 
 - Starting with 3.7.0, versions use `major.minor.patch`.
@@ -24,43 +15,19 @@ uv run python -m unittest discover -s tests
 - Increment minor for new features or drastic changes, resetting patch to 0 (for example, 3.7.2 to 3.8.0).
 - Increment patch for small changes, bug fixes, and typo corrections (for example, 3.7.0 to 3.7.1).
 - This is a project-specific policy; a minor release may include breaking changes.
-- Historical changelog versions, Git tags, and commits retain their original version numbers. The new policy applies from 3.7.0 onward.
+- Historical changelog versions, Git tags, and commits retain their original version numbers.
 
-## Completed in 0.3.5
-
-- Reviewed and integrated PR #1 and PR #2, including regression tests for client/server contracts and monitor/session behavior.
-- Replaced the tabbed controls with simultaneously visible pattern controls and adjustable UI scaling. All five previews follow the selected screen's aspect ratio; inactive patterns use a translucent, resolution-dependent `Off` overlay.
-- Moved bits-per-channel information into physical monitor details. Magnification aligns with the other modification inputs.
-- Added asynchronous pattern calculation with coalescing of pending edits and rejection of stale results.
-- Synchronized remote Zernike and modification parameters with the UI. Remote shifts expand the local slider range when needed; slider max shift has no HEROS setter.
-- Consolidated shared client/server phase and file helpers, bounded notebook preview sampling, and made pattern flip mapping explicit.
-- Added output focus prevention and Windows Aero Peek exclusions. Native desktop behavior still needs platform testing.
-- Added geometry/DPI change handling and session resizing. A changed output resolution resets patterns and optical parameters; unchanged geometry retains the current session.
-- Retained HEROS connection functionality and configuration support while removing the unstable connection toggle from the UI.
-
-## Completed in 0.3.6
-
-- UI scaling preferences persist per user and optionally in exported configuration. Controls have a font-dependent minimum size; native SLM dimensions and pattern data are independent of UI scaling.
-- The control window is resizable, its content can scroll, and the sidebar divider is draggable. The console fits into the space below Correction and Hologram without contributing size hints to the pattern layout.
-- Windows WMI query failures use Qt metadata if no EDID was previously observed. A failure for an already observed screen reuses its last successful EDID; successful queries continue to refresh metadata and detect replaced monitors.
-- Screen information receives more space relative to Associated monitors to keep HERO names readable.
+## To implement
+- Warning when a monitor reports more than 8 bits per channel. The value is displayed, but the software output remains 8-bit and currently has no such warning.
+- Make refresh button mostly irrelevant by including hotplug detection.
+- Detect identical monitor names in the sidebar and add find some additional information that is not identical and add this to the sidebar.
 
 ## Open tasks
 
 - Improve the current overlap between the Enable SLM output button and the output preview. Scaling down the preview is undesirable here, so an overlap can be a reasonable solution; the current implementation of that overlap needs improvement. Leave the UI unchanged until this design is revisited.
 - Stabilize the HEROS connection toggle before exposing it in the user interface again.
-- Consider a warning when a monitor reports more than 8 bits per channel. The value is displayed, but the software output remains 8-bit and currently has no such warning.
 - Add more end-to-end usage examples; existing client examples are in [client/src/examples](../client/src/examples).
-- Investigate intermittent Windows hotplug recovery reported during VM testing: an enabled output sometimes needs Refresh to reconnect. This is not fixed by the WMI fallback. Confirm on physical displays before changing topology handling.
-- Distinguish identical monitor names in the sidebar with a connector or short screen identifier.
 
-## Completed in 0.3.6.post1
-
-- The notched Pattern composition frame renders native Qt group-box sections and lets the active style position and paint its title. Rendering comparisons cover the locally available Windows and Fusion styles, larger fonts, and 100%/150%/200% display scaling; native Windows desktop rendering still needs verification.
-
-- The Off label in inactive previews is twice its previous size and still scales with preview resolution.
-- Screen-list refreshes preserve focus, cursor position and text selection during calculation completion.
-- Default Slider max shift is 100 µm instead of 200 µm; saved configuration values remain unchanged.
 
 ## Known limitations and validation needs
 
@@ -73,3 +40,4 @@ uv run python -m unittest discover -s tests
 
 - Support output precision above 8 bits per channel.
 - Optional REST API access.
+- Decouple the logic completely from the UI, add argument uv run slmcontrol --headless
