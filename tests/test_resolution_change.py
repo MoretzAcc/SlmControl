@@ -4,12 +4,12 @@ import unittest
 from unittest.mock import Mock, patch
 
 import numpy as np
-from moretzslmcontrol.hologram_manager import HologramManager
+from slmcontrol.hologram_manager import HologramManager
 
 
 class ResolutionChangeTest(unittest.TestCase):
     def test_resize_resets_pixel_state_without_replacing_external_identity(self) -> None:
-        with patch('moretzslmcontrol.hologram_manager.SlmHeroConnector'):
+        with patch('slmcontrol.hologram_manager.SlmHeroConnector'):
             manager = HologramManager(4, 8, 'test', 'test', Mock(), Mock())
         identity = manager.heroConnector
         manager.setHologramPattern(np.ones((4, 8), dtype=np.float32))

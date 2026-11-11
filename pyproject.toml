@@ -1,6 +1,6 @@
 [project]
-name = "moretzslmcontrol"
-version = "0.3.6.post1"
+name = "slmcontrol"
+version = "3.7.0"
 description = "Display grayscale hologram patterns for phase-only spatial light modulators."
 readme = "README.md"
 authors = [
@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
-    "moretzslmcontrol-client==0.3.6.post1",
+    "slmcontrol-client==3.7.0",
     "colorlog>=6.11.0",
     "heros>=0.13.3",
     "ipykernel>=7.3.0",
@@ -23,7 +23,8 @@ dependencies = [
 ]
 
 [project.scripts]
-moretzslmcontrol = "moretzslmcontrol.app:main"
+slmcontrol = "slmcontrol.app:main"
+moretzslmcontrol = "slmcontrol.app:main"
 
 [build-system]
 requires = ["uv_build>=0.9.17"]
@@ -63,14 +64,14 @@ ignore = [
 
 exclude = [
     "*.ipynb",
-    "src/moretzslmcontrol/monitor_stuff/platform/linux_edid/**",
-    "src/moretzslmcontrol/monitor_stuff/platform/windows_edid/**",
+    "src/slmcontrol/monitor_stuff/platform/linux_edid/**",
+    "src/slmcontrol/monitor_stuff/platform/windows_edid/**",
     "dev/**"
 ]
 
 
 [tool.mypy]
-files = ["src/moretzslmcontrol"]
+files = ["src/slmcontrol"]
 python_version = "3.14"
 
 warn_unreachable = true
@@ -79,8 +80,8 @@ show_error_codes = true
 pretty = true
 
 exclude = [
-    '^src/moretzslmcontrol/monitor_stuff/platform/linux_edid/',
-    '^src/moretzslmcontrol/monitor_stuff/platform/windows_edid/',
+    '^src/slmcontrol/monitor_stuff/platform/linux_edid/',
+    '^src/slmcontrol/monitor_stuff/platform/windows_edid/',
 ]
 
 [[tool.mypy.overrides]]
@@ -88,4 +89,4 @@ module = ["heros.*", "pyedid.*", "win32*"]
 ignore_missing_imports = true
 
 [tool.uv.sources]
-moretzslmcontrol-client = { path = "client", editable = true }
+slmcontrol-client = { path = "client", editable = true }

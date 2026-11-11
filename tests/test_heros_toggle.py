@@ -5,14 +5,14 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 import numpy as np
-from moretzslmcontrol.hologram_manager import HologramManager
-from moretzslmcontrol.util.config_file import FORMAT_NAME, load_configuration, save_configuration
+from slmcontrol.hologram_manager import HologramManager
+from slmcontrol.util.config_file import FORMAT_NAME, load_configuration, save_configuration
 
 
 class HerosToggleTest(unittest.TestCase):
     def test_disabling_external_control_preserves_patterns_and_frames(self) -> None:
         report_progress = Mock()
-        with patch('moretzslmcontrol.hologram_manager.SlmHeroConnector') as connector:
+        with patch('slmcontrol.hologram_manager.SlmHeroConnector') as connector:
             manager = HologramManager(4, 4, 'test', 'test', Mock(), report_progress, heros_enabled=False)
             connector.assert_not_called()
             report_progress.assert_any_call('HEROS connection disabled')

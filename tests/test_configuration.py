@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from moretzslmcontrol.util.config_file import (
+from slmcontrol.util.config_file import (
     FORMAT_NAME,
     FORMAT_VERSION,
     decode_pattern,
@@ -17,6 +17,21 @@ from moretzslmcontrol.util.config_file import (
 
 
 class ConfigurationFileTest(unittest.TestCase):
+    def test_current_and_legacy_configuration_headers_are_readable(self) -> None:
+        for format_name in ("slmcontrol-configuration", "moretzslmcontrol-configuration"):
+            for version in (1, 2):
+                with self.subTest(format_name=format_name, version=version), tempfile.TemporaryDirectory() as directory:
+                    path = Path(directory) / "configuration.json"
+                    configuration = {
+                        "format": format_name,
+                        "format_version": version,
+                        "slm": {"width": 1920, "height": 1080},
+                        "controls": {},
+                        "patterns": {},
+                    }
+                    save_configuration(path, configuration)
+                    self.assertEqual(load_configuration(path), configuration)
+
     def test_pattern_round_trip_preserves_float32_data(self) -> None:
         pattern = np.array([[0.0, 1.25], [-2.5, np.pi]], dtype=np.float32)
 

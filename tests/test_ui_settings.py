@@ -13,9 +13,9 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QAbstractButton, QApplication
 
-from moretzslmcontrol.userinterface.main_window import MainWindow
-from moretzslmcontrol.util.config_file import load_configuration, save_configuration
-from moretzslmcontrol.util.ui_settings import UiSettings, load_ui_settings, save_ui_settings
+from slmcontrol.userinterface.main_window import MainWindow
+from slmcontrol.util.config_file import load_configuration, save_configuration
+from slmcontrol.util.ui_settings import UiSettings, load_ui_settings, save_ui_settings
 
 
 class UiSettingsPersistenceTest(unittest.TestCase):
@@ -34,7 +34,7 @@ class UiSettingsPersistenceTest(unittest.TestCase):
             path = Path(folder) / "settings.json"
             original = '{"format_version": 1, "ui": {"font_scale": -1}}'
             path.write_text(original)
-            with self.assertLogs("moretzslmcontrol.util.ui_settings", level="WARNING"):
+            with self.assertLogs("slmcontrol.util.ui_settings", level="WARNING"):
                 self.assertEqual(load_ui_settings(path), UiSettings())
             backups = list(path.parent.glob("settings.invalid.*.json"))
             self.assertEqual(len(backups), 1)

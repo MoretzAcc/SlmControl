@@ -10,8 +10,8 @@ import unittest
 class ApplicationSignalsTest(unittest.TestCase):
     def test_idle_qt_event_loop_processes_external_sigterm(self) -> None:
         code = '''
-from moretzslmcontrol.app import _install_signal_handlers
-from moretzslmcontrol.util.shutdown_reason import ShutdownReason
+from slmcontrol.app import _install_signal_handlers
+from slmcontrol.util.shutdown_reason import ShutdownReason
 from PySide6.QtWidgets import QApplication
 app = QApplication(['signal-test', '-platform', 'offscreen'])
 _install_signal_handlers(app, ShutdownReason())

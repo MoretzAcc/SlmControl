@@ -597,15 +597,15 @@ wheels = [
 ]
 
 [[package]]
-name = "moretzslmcontrol"
-version = "0.3.6.post1"
+name = "slmcontrol"
+version = "3.7.0"
 source = { editable = "." }
 dependencies = [
     { name = "colorlog" },
     { name = "heros" },
     { name = "ipykernel" },
     { name = "matplotlib" },
-    { name = "moretzslmcontrol-client" },
+    { name = "slmcontrol-client" },
     { name = "mypy" },
     { name = "numpy" },
     { name = "pillow" },
@@ -626,7 +626,7 @@ requires-dist = [
     { name = "heros", specifier = ">=0.13.3" },
     { name = "ipykernel", specifier = ">=7.3.0" },
     { name = "matplotlib", specifier = ">=3.11.1" },
-    { name = "moretzslmcontrol-client", editable = "client" },
+    { name = "slmcontrol-client", editable = "client" },
     { name = "mypy", specifier = ">=2.3.0" },
     { name = "numpy", specifier = ">=2.5.1" },
     { name = "pillow", specifier = ">=12.3.0" },
@@ -640,8 +640,8 @@ requires-dist = [
 dev = [{ name = "ruff", specifier = ">=0.15.22" }]
 
 [[package]]
-name = "moretzslmcontrol-client"
-version = "0.3.6.post1"
+name = "slmcontrol-client"
+version = "3.7.0"
 source = { editable = "client" }
 dependencies = [
     { name = "heros" },

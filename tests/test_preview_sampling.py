@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from unittest.mock import patch
 import numpy as np
-from moretzslmclient.preview import sample_phase
+from slmclient.preview import sample_phase
 
 
 class PreviewSamplingTest(unittest.TestCase):
@@ -20,7 +20,7 @@ class PreviewSamplingTest(unittest.TestCase):
         import matplotlib
         matplotlib.use('Agg')
         from matplotlib import pyplot as plt
-        from moretzslmclient.notebook_helpers import plotHologram
+        from slmclient.notebook_helpers import plotHologram
         phase = np.ones((600, 800), dtype=np.float32)
         with patch.object(plt, 'show'):
             plotHologram(phase, max_preview_pixels=12000)

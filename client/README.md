@@ -1,18 +1,22 @@
-# Moretz SLM Control Client
+# SLM Control Client
 
-Python client for controlling a Moretz SLM Control instance through HEROS.
+Python client for controlling a SLM Control instance through HEROS.
 
 
 Requires Python 3.11 or newer. Use the same branch or release as the server for unreleased API additions.
 
+The distribution is `slmcontrol-client`; Python imports use `slmclient`.
+Existing `moretzslmclient` imports, including submodules, remain supported.
+They emit a `DeprecationWarning`; use `slmclient` for new code.
+
 Using pip:
 ```bash
-python -m pip install "git+https://github.com/MoretzAcc/MoretzSlmControl.git#subdirectory=client"
+python -m pip install "git+https://github.com/MoretzAcc/SlmControl.git#subdirectory=client"
 ```
 
 Using uv:
 ```bash
-uv add "git+https://github.com/MoretzAcc/MoretzSlmControl.git#subdirectory=client"
+uv add "git+https://github.com/MoretzAcc/SlmControl.git#subdirectory=client"
 ```
 
 ### Example
@@ -22,7 +26,7 @@ A full example can be found in [src/examples](src/examples).
 To apply a hologram pattern to the SLM:
 
 ```python
-from moretzslmclient import SlmHeroApi
+from slmclient import SlmHeroApi
 import numpy as np
 
 hologram = np.zeros((1080, 1920), dtype=np.float32)  # Use your SLM's native dimensions.
@@ -60,7 +64,7 @@ smaller shifts do not shrink it. Slider max shift has no HEROS setter.
 
 ```python
 import numpy as np
-from moretzslmclient import plotHologram
+from slmclient import plotHologram
 
 phase = np.zeros((2160, 3840), dtype=np.float32)
 plotHologram(phase)  # Bounded to at most about one million preview pixels.

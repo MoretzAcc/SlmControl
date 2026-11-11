@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from unittest.mock import Mock, patch
 
-from moretzslmclient.discover_heros import discover_slm_heros
+from slmclient.discover_heros import discover_slm_heros
 
 
 class DiscoverHerosTest(unittest.TestCase):
@@ -15,7 +15,7 @@ class DiscoverHerosTest(unittest.TestCase):
         }
         observer.__enter__ = Mock(return_value=observer)
         observer.__exit__ = Mock(return_value=False)
-        with patch('moretzslmclient.discover_heros.HEROObserver', return_value=observer) as factory:
+        with patch('slmclient.discover_heros.HEROObserver', return_value=observer) as factory:
             self.assertEqual(discover_slm_heros(), ['slm-a'])
         factory.assert_called_once_with()
         observer.__enter__.assert_called_once_with()

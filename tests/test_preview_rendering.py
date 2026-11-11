@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 import numpy as np
-from moretzslmcontrol.userinterface.ui_util.cross_out_preview import disabled_preview
+from slmcontrol.userinterface.ui_util.cross_out_preview import disabled_preview
 
 
 class PreviewRenderingTest(unittest.TestCase):

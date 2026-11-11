@@ -4,9 +4,9 @@ import unittest
 import subprocess
 import sys
 import numpy as np
-from moretzslmclient.bit_map_util import byteToPhase, phaseToByte
-from moretzslmclient.file_util import importNpyHologram
-from moretzslmcontrol.util import bit_map_util, file_util
+from slmclient.bit_map_util import byteToPhase, phaseToByte
+from slmclient.file_util import importNpyHologram
+from slmcontrol.util import bit_map_util, file_util
 
 
 class SharedHelpersTest(unittest.TestCase):
@@ -20,6 +20,6 @@ class SharedHelpersTest(unittest.TestCase):
 
     def test_importing_helpers_does_not_open_a_persistent_network_session(self) -> None:
         result = subprocess.run([sys.executable, '-c',
-            'import sys; import moretzslmclient; assert "PySide6" not in sys.modules; assert "moretzslmcontrol" not in sys.modules'],
+            'import sys; import slmclient; assert "PySide6" not in sys.modules; assert "slmcontrol" not in sys.modules'],
             capture_output=True, text=True, timeout=5)
         self.assertEqual(result.returncode, 0, result.stderr)

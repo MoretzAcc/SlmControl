@@ -8,11 +8,11 @@ from inspect import signature
 from pathlib import Path
 from typing import get_type_hints
 
-from moretzslmcontrol.control.slm_hero_connector import SlmHeroConnector as ServerSlmHeroConnector
+from slmcontrol.control.slm_hero_connector import SlmHeroConnector as ServerSlmHeroConnector
 
 
-_CLIENT_TYPES_PATH = Path(__file__).parents[1] / "client" / "src" / "moretzslmclient" / "types.py"
-_client_types_spec = spec_from_file_location("moretzslmclient_types_contract", _CLIENT_TYPES_PATH)
+_CLIENT_TYPES_PATH = Path(__file__).parents[1] / "client" / "src" / "slmclient" / "types.py"
+_client_types_spec = spec_from_file_location("slmclient_types_contract", _CLIENT_TYPES_PATH)
 if _client_types_spec is None or _client_types_spec.loader is None:
     raise ImportError("Could not load the standalone client contract")
 _client_types_module = module_from_spec(_client_types_spec)

@@ -1,0 +1,81 @@
+"""
+Author: Moritz van Eimern
+Date: 23.03.2026
+Generated using ChatGPT
+"""
+
+from __future__ import annotations
+
+import logging
+import os
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+from PySide6.QtGui import QScreen
+
+from slmcontrol.monitor_stuff.platform import PlatformAdapter
+
+from slmcontrol.monitor_stuff.platform.base import MonitorEdid
+from slmcontrol.monitor_stuff.bit_depth import edid_bits_per_channel
+from slmcontrol.monitor_stuff.platform.linux_edid.get_all import get_linux_edids, LinuxMonitor
+
+if TYPE_CHECKING:
+    ...
+
+logger = logging.getLogger(__name__)
+
+
+class LinuxPlatformAdapter(PlatformAdapter):
+    def get_host_id(self) -> str:
+        try:
+            machine_id = Path("/etc/machine-id")
+            if machine_id.exists():
+                return machine_id.read_text().strip()
+            else:
+                return ""
+        except PermissionError:
+            logger.debug("Failed to get host id (PermissionError).")
+            return ""
+        except OSError as _:
+            logger.debug("Failed to get host id (OSError).")
+            return ""
+
+    def __init__(self, qt_backend: str) -> None:
+        self.qt_backend = qt_backend
+        self.desktop_environment = os.environ.get("XDG_CURRENT_DESKTOP")
+        self.session = os.environ.get("XDG_SESSION_TYPE")
+        self.linux_monitors: list[LinuxMonitor] = []
+        super().__init__()
+
+    def get_screen_edids(self, screen: QScreen) -> list[MonitorEdid]:
+        name = screen.name()
+
+        monitor = next(
+            (x for x in self.linux_monitors if x.connector_name == name),
+            None,
+        )
+
+        if monitor is None:
+            # Try with refreshing the list
+            self.refresh_edid_list()
+
+            monitor = next(
+                (x for x in self.linux_monitors if x.connector_name == name),
+                None,
+            )
+
+        if monitor is None:
+            logger.error(f"Could not find EDID for connector {name}")
+            # TODO more checks ? No guarantee that this works on all linux distros. Tested for ubuntu:Gnome wayland and fedora KDE wayland
+            return []
+
+        # TODO this currently only gets the main monitor for each screen
+        return [MonitorEdid(os_identifier=monitor.connector_name, parsed_edid=monitor.parsed_edid, bits_per_channel=edid_bits_per_channel(monitor.edid))]
+
+    def refresh_edid_list(self) -> None:
+        self.linux_monitors = get_linux_edids()
+
+    def log_all_edids(self) -> None:
+        logger.info("Logging all EDIDs in linux_monitors:")
+        for monitor in self.linux_monitors:
+            logger.info(f"EDID for {monitor.connector_name}:\n{monitor.parsed_edid}\n\n")

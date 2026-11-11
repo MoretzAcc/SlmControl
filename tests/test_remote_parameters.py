@@ -14,12 +14,12 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtWidgets import QApplication
 
-from moretzslmcontrol.control.slm_hero_connector import SlmHeroConnector
-from moretzslmcontrol.hologram_manager import HologramManager
-from moretzslmcontrol.monitor_stuff.models import SessionState
-from moretzslmcontrol.userinterface.display_bridge import DisplayBridge
-from moretzslmcontrol.userinterface.main_window import MainWindow
-from moretzslmcontrol.util.ui_settings import UiSettings
+from slmcontrol.control.slm_hero_connector import SlmHeroConnector
+from slmcontrol.hologram_manager import HologramManager
+from slmcontrol.monitor_stuff.models import SessionState
+from slmcontrol.userinterface.display_bridge import DisplayBridge
+from slmcontrol.userinterface.main_window import MainWindow
+from slmcontrol.util.ui_settings import UiSettings
 
 
 class RemoteParametersTest(unittest.TestCase):

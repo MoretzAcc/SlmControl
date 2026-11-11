@@ -11,7 +11,7 @@ from PySide6.QtCore import QPointF, QRect
 from PySide6.QtGui import QFont, QImage
 from PySide6.QtWidgets import QApplication, QGroupBox, QStyleFactory, QWidget
 
-from moretzslmcontrol.userinterface.pattern_composition_group import PatternCompositionGroup
+from slmcontrol.userinterface.pattern_composition_group import PatternCompositionGroup
 
 
 class PatternFrameTest(unittest.TestCase):

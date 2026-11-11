@@ -10,8 +10,8 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtWidgets import QApplication
 
-from moretzslmcontrol.userinterface.main_window import MainWindow
-from moretzslmcontrol.util.ui_settings import UiSettings
+from slmcontrol.userinterface.main_window import MainWindow
+from slmcontrol.util.ui_settings import UiSettings
 
 
 class EmbeddedConsoleTest(unittest.TestCase):

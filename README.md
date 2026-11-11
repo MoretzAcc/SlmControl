@@ -1,4 +1,4 @@
-# Moretz SLM Control
+# SLM Control
 
 Desktop application for controlling spatial light modulator (SLM) displays.
 
@@ -22,12 +22,16 @@ Tested using Spatial Light Modulators from:
 
 ## Install and run
 
+The examples use `SlmControl` as the checkout directory; an existing checkout can keep its directory name.
+
 ```bash
-git clone https://github.com/MoretzAcc/MoretzSlmControl.git
-cd MoretzSlmControl
+git clone https://github.com/MoretzAcc/SlmControl.git
+cd SlmControl
 uv sync
-uv run moretzslmcontrol
+uv run slmcontrol
 ```
+
+The previous command `uv run moretzslmcontrol` remains supported.
 
 ## Usage
 
@@ -38,8 +42,8 @@ uv run moretzslmcontrol
 5. Slider values update while dragging. Pattern calculation runs asynchronously and combines rapid edits into the newest desired state.
 6. Export configuration to save the session settings and patterns, or import a saved configuration. Current exports use format v2; legacy v1 remains readable.
 
-UI preferences are saved automatically to `~/.config/moretzslmcontrol/settings.json`
-(`C:\Users\<user>\.config\moretzslmcontrol\settings.json` on Windows), and restored at
+UI preferences are saved automatically to `~/.config/slmcontrol/settings.json`
+(`C:\Users\<user>\.config\slmcontrol\settings.json` on Windows), and restored at
 startup. A missing file is created with default values; invalid settings are backed
 up before defaults are written. **Restore Defaults** in UI settings resets all four
 factors to 100%. Scaling changes previews and controls, preserving native SLM output
@@ -52,6 +56,12 @@ the sidebar width; its contents scroll if they need more room.
 Configuration exports also include the optional `controls.ui` factors. Importing
 them applies and saves the UI preferences immediately. Older v1/v2 configurations
 without that field retain the current UI preferences.
+
+After the project rename, UI preferences use the new `slmcontrol` settings directory.
+To transfer existing preferences, export a configuration including `controls.ui`
+with the previous application and import it here. Configuration files exported
+under the previous project name remain readable; new exports identify themselves
+as `slmcontrol-configuration`.
 
 ## HEROS integration
 
@@ -66,13 +76,13 @@ To import the client in any of your projects:
 Install the client using pip:
 
 ```bash
-python -m pip install "git+https://github.com/MoretzAcc/MoretzSlmControl.git#subdirectory=client"
+python -m pip install "git+https://github.com/MoretzAcc/SlmControl.git#subdirectory=client"
 ```
 
 Using uv:
 
 ```bash
-uv add "git+https://github.com/MoretzAcc/MoretzSlmControl.git#subdirectory=client"
+uv add "git+https://github.com/MoretzAcc/SlmControl.git#subdirectory=client"
 ```
 
 See the [client README](client/README.md) for examples and parameter units. Use a client from the same branch or release as the server when trying unreleased API additions.
@@ -97,4 +107,4 @@ uv run python -m unittest discover -s tests
 - This software is supposed to be able to deal with OS-sided display scaling. However, for very strong (e.g. 20%, 500%) or fractional scaling (e.g. 85%), some issues may appear.
 - Linux EDID detection has been tested with KDE Wayland and Ubuntu GNOME Wayland, but monitor mapping can be unreliable with multiple or mirrored monitors. Check the detected monitor details before enabling output.
 
-See the [changelog](dev/CHANGELOG.md) for release changes and [development notes](dev/DEV_NOTES.md) for remaining work and platform validation needs.
+See the [changelog](CHANGELOG.md) for release changes and [development notes](dev/DEV_NOTES.md) for remaining work and platform validation needs.

@@ -1,21 +1,28 @@
-"""Client API for Moretz SLM Control HEROS endpoints."""
+"""Compatibility imports for the former client package name."""
 
-from moretzslmclient.client import SlmHeroApi, SlmHeroNotFoundError
-from moretzslmclient.file_util import importNpyHologram, importBmpHologram
-from moretzslmclient.bit_map_util import byteToPhase, phaseToByte
-from moretzslmclient.notebook_helpers import plotHologram
-from moretzslmclient.types import SessionStats, SlmHeroConnector
-from moretzslmclient.discover_heros import discover_slm_heros
+from importlib import import_module
+import sys
+import warnings
 
-__all__ = [
-    "SessionStats",
-    "SlmHeroApi",
-    "SlmHeroConnector",
-    "SlmHeroNotFoundError",
-    "byteToPhase",
-    "discover_slm_heros",
-    "importBmpHologram",
-    "importNpyHologram",
-    "phaseToByte",
-    "plotHologram",
-]
+import slmclient
+
+
+warnings.warn(
+    "moretzslmclient is deprecated; use slmclient instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
+# Reuse canonical modules so classes, exceptions, and module state stay identical.
+for _module_name in (
+    "bit_map_util",
+    "client",
+    "discover_heros",
+    "file_util",
+    "notebook_helpers",
+    "preview",
+    "types",
+):
+    sys.modules[f"{__name__}.{_module_name}"] = import_module(f"slmclient.{_module_name}")
+
+sys.modules[__name__] = slmclient

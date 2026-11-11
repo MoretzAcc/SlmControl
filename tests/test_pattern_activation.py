@@ -6,8 +6,8 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 
-from moretzslmcontrol.hologram_manager import HologramManager
-from moretzslmcontrol.util.patterns.zernike import makeCartGrid
+from slmcontrol.hologram_manager import HologramManager
+from slmcontrol.util.patterns.zernike import makeCartGrid
 
 
 class PatternActivationTest(unittest.TestCase):
@@ -61,7 +61,7 @@ class PatternActivationTest(unittest.TestCase):
         )
 
     def test_unavailable_zernike_aberration_is_rejected_without_change(self) -> None:
-        with patch("moretzslmcontrol.hologram_manager.zernike_order", 3):
+        with patch("slmcontrol.hologram_manager.zernike_order", 3):
             with self.assertRaisesRegex(ValueError, "requires order 4"):
                 self.manager.setZernikeAberrations({"primary spherical": 1.0}, update=False)
 

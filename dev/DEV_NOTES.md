@@ -3,18 +3,28 @@
 ## Development commands
 
 ```bash
-uv run moretzslmcontrol
+uv run slmcontrol
 uv run ruff check .
 uv run python -m unittest discover -s tests
 ```
 
 ## Release preparation
 
-- Version 0.3.6.post1 includes the preview label, frame styling and editing fixes following the reviewed PR #3 release. Server and client distribution versions are synchronized.
-- Concise release notes are recorded in the [changelog](CHANGELOG.md); implementation details and the full history are kept in the [detailed changelog](CHANGELOG_FULL.md). Collect subsequent changes in a new Unreleased section.
+- Version 3.7.0 introduces the versioning policy below. Server and client distribution versions are synchronized.
+- Keep the [changelog](../CHANGELOG.md) very short and limited to user-relevant changes. Put implementation details and explanations in the [detailed changelog](CHANGELOG_FULL.md). Collect subsequent changes in a new Unreleased section.
 - The current distribution version is recorded in `VERSION`. Historical changelog entries contain version labels that do not consistently match it; do not derive the next version from those labels alone.
 - At release time, update `VERSION`, run `uv run python dev/sync_version.py`, and verify the resulting package metadata.
+- Refresh both lockfiles with `uv lock` and `uv lock --project client` after synchronizing the package versions.
 - Release validation commands are listed above. Offscreen checks cannot validate focus, compositor behavior, output fidelity, or native monitor discovery; record native desktop and physical SLM checks separately when performed.
+
+## Versioning policy
+
+- Starting with 3.7.0, versions use `major.minor.patch`.
+- Major is 3 and is expected to remain constant.
+- Increment minor for new features or drastic changes, resetting patch to 0 (for example, 3.7.2 to 3.8.0).
+- Increment patch for small changes, bug fixes, and typo corrections (for example, 3.7.0 to 3.7.1).
+- This is a project-specific policy; a minor release may include breaking changes.
+- Historical changelog versions, Git tags, and commits retain their original version numbers. The new policy applies from 3.7.0 onward.
 
 ## Completed in 0.3.5
 

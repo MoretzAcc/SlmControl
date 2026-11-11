@@ -4,13 +4,13 @@ This repository is a Python GUI application for controlling SLM displays. It use
 
 ## Project shape
 
-- Server package root: `src/moretzslmcontrol`
-- Client package root: `client/src/moretzslmclient`
-- App entrypoint: `src/moretzslmcontrol/app.py`
-- UI layer: `src/moretzslmcontrol/userinterface`
-- Monitor/platform integration: `src/moretzslmcontrol/monitor_stuff`
-- External SLM control: `src/moretzslmcontrol/control`
-- Utility helpers: `src/moretzslmcontrol/util`
+- Server package root: `src/slmcontrol`
+- Client package root: `client/src/slmclient`
+- App entrypoint: `src/slmcontrol/app.py`
+- UI layer: `src/slmcontrol/userinterface`
+- Monitor/platform integration: `src/slmcontrol/monitor_stuff`
+- External SLM control: `src/slmcontrol/control`
+- Utility helpers: `src/slmcontrol/util`
 - Templates/examples: `src/templates`
 
 ## Environment
@@ -21,7 +21,7 @@ This repository is a Python GUI application for controlling SLM displays. It use
 - Main app run command:
 
 ```bash
-uv run moretzslmcontrol
+uv run slmcontrol
 ```
 
 ## Development commands
@@ -29,7 +29,7 @@ uv run moretzslmcontrol
 - Run app:
 
 ```bash
-uv run moretzslmcontrol
+uv run slmcontrol
 ```
 
 - Run Ruff:
@@ -56,7 +56,9 @@ uv run ruff check client/src
 ## Coding expectations for agents
 
 - Use English for code, comments, documentation, log messages, and all user-facing program text.
+- Keep CHANGELOG.md entries very short and relevant to users. Omit implementation details, internal bookkeeping, and lengthy explanations; put technical details in dev/CHANGELOG_FULL.md instead.
 - Update VERSION and run dev/sync_version.py when changing a distribution version.
+- Refresh both lockfiles with uv lock and uv lock --project client after synchronizing versions. From 3.7.0 onward, use major.minor.patch: major stays 3, minor increases for features or drastic changes and resets patch to 0, and patch increases for small changes, bug fixes, or typos. Keep server and client versions synchronized and preserve historical version labels.
 - When changing user-configurable state, update the configuration import/export format and tests as needed.
 - Keep changes scoped and consistent with the existing package layout.
 - Prefer small, explicit Python changes over broad refactors.
@@ -71,7 +73,7 @@ For code changes, use the lightest verification that matches the risk:
 
 1. `uv run ruff check .`
 2. `uv run python -m unittest discover -s tests` when changing the server/client HERO contract.
-3. If UI or runtime behavior changed, run `uv run moretzslmcontrol` when the environment supports GUI execution.
+3. If UI or runtime behavior changed, run `uv run slmcontrol` when the environment supports GUI execution.
 4. If a task affects platform-specific code, call out which platforms were not verified.
 
 ## Notes for future work
@@ -82,6 +84,6 @@ For code changes, use the lightest verification that matches the risk:
 
 ## UI preferences
 
-- UI preferences live in `~/.config/moretzslmcontrol/settings.json`. Keep global and relative font/element/preview factors independent; UI scaling must never change native SLM buffers or output bytes. Configuration v2 optionally exports these factors as `controls.ui`; legacy files retain current preferences.
+- UI preferences live in `~/.config/slmcontrol/settings.json`. Keep global and relative font/element/preview factors independent; UI scaling must never change native SLM buffers or output bytes. Configuration v2 optionally exports these factors as `controls.ui`; legacy files retain current preferences.
 - GUI tests must pass a temporary `settings_path` to MainWindow so they cannot read or overwrite personal UI preferences.
 - Frame rendering comparisons in `tests/test_pattern_frame.py` check the notched Pattern composition group against native group boxes under available Qt styles. Preserve native frame/title rendering when changing that widget.

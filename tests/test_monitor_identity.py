@@ -5,8 +5,8 @@ from unittest.mock import Mock
 
 from PySide6.QtCore import QRect, QSizeF
 
-from moretzslmcontrol.monitor_stuff.platform.linux import LinuxPlatformAdapter
-from moretzslmcontrol.monitor_stuff.platform.base import MonitorEdid
+from slmcontrol.monitor_stuff.platform.linux import LinuxPlatformAdapter
+from slmcontrol.monitor_stuff.platform.base import MonitorEdid
 
 
 class MonitorIdentityTest(unittest.TestCase):
@@ -69,7 +69,7 @@ class MonitorIdentityTest(unittest.TestCase):
         window.setGeometry.assert_called_once_with(QRect(1920, 0, 1080, 1920))
 
     def test_unplug_keeps_previously_observed_identity_when_edid_disappears(self) -> None:
-        from moretzslmcontrol.monitor_stuff.monitor_manager import MonitorManager
+        from slmcontrol.monitor_stuff.monitor_manager import MonitorManager
         app = Mock()
         app.screens.return_value = []
         adapter = Mock()

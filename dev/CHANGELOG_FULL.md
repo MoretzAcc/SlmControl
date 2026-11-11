@@ -1,7 +1,17 @@
 
 # Detailed changelog
 
-User-facing release notes are maintained in [CHANGELOG.md](CHANGELOG.md).
+User-facing release notes are maintained in [CHANGELOG.md](../CHANGELOG.md).
+
+## 3.7.0 — 2026-11-11
+
+### Changed
+
+- Retained `moretzslmcontrol` as an alias for the server command and `moretzslmclient` as a compatibility import package, including its submodules. Legacy imports reuse canonical modules and preserve class and exception identity. The client distribution remains `slmcontrol-client`.
+- Renamed the project to SLM Control throughout packages, imports, entry points, examples, tests, and documentation. The server distribution and command are `slmcontrol`; the client distribution is `slmcontrol-client` and its import package is `slmclient`.
+- New configuration exports use `slmcontrol-configuration`, while imports accept both current and legacy identifiers. UI preferences use the new `slmcontrol` directory; existing preferences can be transferred through configuration export/import.
+- Adopted the project-specific `major.minor.patch` policy documented in [development notes](DEV_NOTES.md): major remains 3, minor increases for features or drastic changes and resets patch to 0, and patch increases for small changes, bug fixes, or typos.
+- Synchronized server and client distribution metadata and their pinned dependency to 3.7.0. Historical changelog versions remain unchanged.
 
 ## 0.3.6.post1 — 2026-11-09
 

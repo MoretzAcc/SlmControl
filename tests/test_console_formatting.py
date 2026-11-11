@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from moretzslmcontrol.userinterface.main_window import MainWindow
+from slmcontrol.userinterface.main_window import MainWindow
 
 
 class ConsoleFormattingTest(unittest.TestCase):

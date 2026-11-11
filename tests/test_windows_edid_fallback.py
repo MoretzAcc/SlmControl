@@ -6,14 +6,14 @@ from unittest.mock import Mock, patch
 
 from PySide6.QtCore import QRect, QSizeF
 
-from moretzslmcontrol.monitor_stuff.monitor_manager import MonitorManager
+from slmcontrol.monitor_stuff.monitor_manager import MonitorManager
 
 
 @unittest.skipUnless(sys.platform == "win32", "Requires the Windows platform adapter")
 class WindowsEdidFallbackTest(unittest.TestCase):
     def setUp(self) -> None:
         from pywintypes import com_error
-        from moretzslmcontrol.monitor_stuff.platform.windows import WindowsPlatformAdapter
+        from slmcontrol.monitor_stuff.platform.windows import WindowsPlatformAdapter
 
         self.adapter = WindowsPlatformAdapter()
         self.screen = Mock()
@@ -43,8 +43,8 @@ class WindowsEdidFallbackTest(unittest.TestCase):
 
     def test_unsupported_wmi_monitor_query_keeps_screen_available(self) -> None:
         with (
-            patch("moretzslmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=self.error),
-            self.assertLogs("moretzslmcontrol.monitor_stuff.platform.windows", level="WARNING"),
+            patch("slmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=self.error),
+            self.assertLogs("slmcontrol.monitor_stuff.platform.windows", level="WARNING"),
         ):
             descriptor = self.adapter.describe_screen(self.screen)
         self.assertEqual(descriptor.screen_name, "DISPLAY1")
@@ -55,7 +55,7 @@ class WindowsEdidFallbackTest(unittest.TestCase):
     def test_successful_edid_queries_refresh_metadata_and_keep_geometry_out_of_identity(self) -> None:
         first = self.monitor("connector-1", "first-panel")
         replacement = self.monitor("connector-1", "replacement-panel")
-        with patch("moretzslmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=[[first], [first], [replacement]]) as query:
+        with patch("slmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=[[first], [first], [replacement]]) as query:
             original = self.adapter.describe_screen(self.screen)
             self.screen.geometry.return_value = QRect(0, 0, 3840, 2160)
             resized = self.adapter.describe_screen(self.screen)
@@ -71,13 +71,13 @@ class WindowsEdidFallbackTest(unittest.TestCase):
         monitor = self.monitor("connector-1", "first-panel")
         app = Mock()
         app.screens.return_value = [self.screen]
-        with patch("moretzslmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=[[monitor], self.error, [monitor]]):
+        with patch("slmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=[[monitor], self.error, [monitor]]):
             manager = MonitorManager(app, self.adapter)
             uid = next(iter(manager._records_by_id))
             session = Mock()
             session.displayer.shape = (1080, 1920)
             manager._sessions_by_id[uid] = session
-            with self.assertLogs("moretzslmcontrol.monitor_stuff.platform.windows", level="WARNING"):
+            with self.assertLogs("slmcontrol.monitor_stuff.platform.windows", level="WARNING"):
                 manager.rescan_screens()
             self.assertTrue(manager.get_screen_record(uid).is_connected)
             self.assertEqual(len(manager._records_by_id), 1)
@@ -91,9 +91,9 @@ class WindowsEdidFallbackTest(unittest.TestCase):
         monitor = self.monitor("connector-1", "first-panel")
         other_screen = Mock()
         other_screen.name.return_value = "DISPLAY2"
-        with patch("moretzslmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=[[monitor], self.error, []]):
+        with patch("slmcontrol.monitor_stuff.platform.windows.windows_match_edids", side_effect=[[monitor], self.error, []]):
             self.assertTrue(self.adapter.get_screen_edids(self.screen))
-            with self.assertLogs("moretzslmcontrol.monitor_stuff.platform.windows", level="WARNING"):
+            with self.assertLogs("slmcontrol.monitor_stuff.platform.windows", level="WARNING"):
                 self.assertEqual(self.adapter.get_screen_edids(other_screen), [])
             # A successful empty query is authoritative, not replaced by a cache.
             self.assertEqual(self.adapter.get_screen_edids(self.screen), [])

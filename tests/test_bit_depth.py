@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import unittest
-from moretzslmcontrol.monitor_stuff.bit_depth import edid_bits_per_channel, depth_summary
+from slmcontrol.monitor_stuff.bit_depth import edid_bits_per_channel, depth_summary
 
 
 def edid(depth_code: int, revision: int = 4, digital: bool = True) -> bytes:

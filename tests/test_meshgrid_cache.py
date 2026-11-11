@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from moretzslmcontrol.util.patterns.meshgrid import getMeshGrid
+from slmcontrol.util.patterns.meshgrid import getMeshGrid
 
 
 class MeshGridCacheTest(unittest.TestCase):

@@ -3,7 +3,7 @@ from __future__ import annotations
 import ctypes
 import unittest
 from unittest.mock import Mock
-from moretzslmcontrol.monitor_stuff.platform.windows_peek import _set_peek_attributes
+from slmcontrol.monitor_stuff.platform.windows_peek import _set_peek_attributes
 
 
 class WindowsPeekTest(unittest.TestCase):
