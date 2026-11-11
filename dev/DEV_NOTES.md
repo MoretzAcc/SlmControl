@@ -21,6 +21,7 @@ uv run python -m unittest discover -s tests
 - Warning when a monitor reports more than 8 bits per channel. The value is displayed, but the software output remains 8-bit and currently has no such warning.
 - Make refresh button mostly irrelevant by including hotplug detection.
 - Detect identical monitor names in the sidebar and add find some additional information that is not identical and add this to the sidebar.
+- Field with filename should be changed when a different pattern is loaded through HEROS
 
 ## Open tasks
 
@@ -41,3 +42,4 @@ uv run python -m unittest discover -s tests
 - Support output precision above 8 bits per channel.
 - Optional REST API access.
 - Decouple the logic completely from the UI, add argument uv run slmcontrol --headless
+- disable popup notifications
