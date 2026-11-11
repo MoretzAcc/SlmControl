@@ -8,12 +8,15 @@ Tested on Operating Systems:
 
 - Windows 11
 - Fedora 44 KDE Wayland
+- Debian 13 KDE Wayland
 - Ubuntu 24.04 GNOME Wayland
 
 Tested using Spatial Light Modulators from:
 
 - Holoeye
 - Hamamatsu
+
+Disclaimer: Not all functionality was tested on all devices and operating systems.
 
 ## Requirements
 
